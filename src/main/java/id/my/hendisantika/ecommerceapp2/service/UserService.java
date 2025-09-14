@@ -112,4 +112,9 @@ public class UserService {
         user.setResetTokens(resetToken);
         userRepository.save(user);
     }
+
+    public User getUserByResetTokens(String token) {
+        // TODO Auto-generated method stub
+        return userRepository.findByResetTokens(token);
+    }
 }
