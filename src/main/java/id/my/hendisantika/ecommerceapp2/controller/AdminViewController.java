@@ -286,4 +286,22 @@ public class AdminViewController {
         // return "redirect:/admin/product/edit-product";
         return "redirect:/admin/product-list";
     }
+
+
+    //USER-WORK
+    //get all users
+    @GetMapping("/get-all-users")
+    public String getAllUser(Model model) {
+        List<User> allUsers = userService.getAllUsersByRole("ROLE_USER");
+        for (User user : allUsers) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+            String format = formatter.format(user.getCreatedAt());
+            model.addAttribute("formattedDateTimeCreatedAt", format);
+
+        }
+        model.addAttribute("allUsers", allUsers);
+
+        return "/admin/users/user-home";
+    }
+
 }
