@@ -11,6 +11,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import static id.my.hendisantika.ecommerceapp2.util.AppConstant.UNLOCK_DURATION_TIME;
+
 /**
  * Created by IntelliJ IDEA.
  * Project : ecommerce-app2
@@ -86,7 +88,7 @@ public class UserService {
     public boolean isUnlockAccountTimeExpired(User user) {
         long accountLockTime = user.getAccountLockTime().getTime();
         System.out.println("Account LockTime: " + accountLockTime);
-        long accountUnlockTime = accountLockTime + AppConstant.UNLOCK_DURATION_TIME;
+        long accountUnlockTime = accountLockTime + UNLOCK_DURATION_TIME;
         System.out.println("Account Unlock Time :" + accountUnlockTime);
 
         long currentTime = System.currentTimeMillis();

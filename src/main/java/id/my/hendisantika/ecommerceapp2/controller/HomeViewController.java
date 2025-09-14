@@ -241,4 +241,23 @@ public class HomeViewController {
 //
 //
 //	}
+
+    @PostMapping("/reset-password")
+    public String resetPasswordOperation(@RequestParam String token, @RequestParam String password, HttpSession session, Model model) {
+        User userByToken = userService.getUserByResetTokens(token);
+        if (ObjectUtils.isEmpty(userByToken)) {
+            model.addAttribute("msg", "Your Link is invalid or expired!");
+            return "message";
+        } else {
+
+            //userByToken.setPassword(bCryptPasswordEncoder.encode(password));
+            userByToken.setPassword(passwordEncoder.encode(password));
+            userByToken.setResetTokens(null);
+            User updatedUser = userService.updateUserWhileResettingPassword(userByToken);//this method only update user's password and ResetTokens.
+            session.setAttribute("successMsg", "Password Changed Successfully");
+            model.addAttribute("msg", "Password Changed Successfully");
+            return "message";
+        }
+
+    }
 }
