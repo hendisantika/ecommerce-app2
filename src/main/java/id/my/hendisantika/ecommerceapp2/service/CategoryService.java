@@ -1,5 +1,6 @@
 package id.my.hendisantika.ecommerceapp2.service;
 
+import id.my.hendisantika.ecommerceapp2.entity.Category;
 import id.my.hendisantika.ecommerceapp2.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,4 +20,9 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class CategoryService {
     private final CategoryRepository categoryRepository;
+
+    public Category saveCategory(Category category) {
+        // TODO Auto-generated method stub
+        return categoryRepository.save(category);
+    }
 }
