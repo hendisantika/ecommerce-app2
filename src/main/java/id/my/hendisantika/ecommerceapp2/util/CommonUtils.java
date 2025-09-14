@@ -2,6 +2,7 @@ package id.my.hendisantika.ecommerceapp2.util;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -42,5 +43,10 @@ public class CommonUtils {
         mailSender.send(message);
 
         return true;
+    }
+
+    public static String generateUrl(HttpServletRequest request) {
+        String fullUrl = request.getRequestURL().toString();
+        return fullUrl.replace(request.getServletPath(), "");
     }
 }
