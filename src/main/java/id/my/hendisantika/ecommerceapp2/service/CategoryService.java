@@ -56,4 +56,9 @@ public class CategoryService {
         // TODO Auto-generated method stub
         return categoryRepository.findById(id);
     }
+
+    public List<Category> findAllActiveCategory() {
+        List<Category> categories = categoryRepository.findByIsActiveTrue();
+        return categories;
+    }
 }
