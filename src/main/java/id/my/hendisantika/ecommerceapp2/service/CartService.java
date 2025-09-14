@@ -84,4 +84,9 @@ public class CartService {
         }
         return updatedCartList;
     }
+
+    public Long getCounterCart(Long userId) {
+        Long cartCountByUserId = cartRepository.countByUserId(userId);
+        return cartCountByUserId;
+    }
 }
