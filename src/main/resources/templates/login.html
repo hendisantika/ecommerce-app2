@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" th:replace="~{base::layout(~{::section})}"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+</head>
+<body>
+<section>
+    <div class="container mt-5 p-5">
+        <div class="row">
+            <div class="col-md-6 p-5">
+                <img alt="" height="400px" src="/img/login.jpg" width="100%">
+            </div>
+            <div class="col-md-6 mt-3 p-5">
+                <div class="card shadow p-3 mb-5 bg-body rounded">
+                    <div class="card-header">
+                        <p class="fs-4 text-center">Login</p>
+
+                        <!-- Logout and Signin Error Alert -->
+                        <div class="alert alert-danger text-center" th:if="${param.error}">
+                            [[${session.SPRING_SECURITY_LAST_EXCEPTION.message}]]
+                        </div>
+                        <div class="alert alert-success text-center" th:if="${param.logout}">Logout Successfully.</div>
+                        <!-- Logout and Signin Error Alert -->
+
+                    </div>
+                    <div class="card-body">
+                        <form action="/login" method="post">
+                            <div class="mb-3">
+                                <label class="form-label">Email</label> <input
+                                    class="form-control" name="username" type="email"/>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Password</label> <input
+                                    class="form-control" name="password" type="password"/>
+                            </div>
+                            <button class="btn bg-danger text-white col-md-12" type="submit">Submit</button>
+                        </form>
+
+
+                    </div>
+                    <div class="card-footer text-center">
+                        <a class="text-decoration-none" href="/forgot-password">Forgot Password ?</a><br>Don't have an
+                        account?
+                        <a class="text-decoration-none" href="/register"> Create One</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+</body>
+</html>
