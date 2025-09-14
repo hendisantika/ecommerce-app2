@@ -1,5 +1,7 @@
 package id.my.hendisantika.ecommerceapp2.controller;
 
+import id.my.hendisantika.ecommerceapp2.entity.Category;
+import id.my.hendisantika.ecommerceapp2.entity.User;
 import id.my.hendisantika.ecommerceapp2.service.CartService;
 import id.my.hendisantika.ecommerceapp2.service.CategoryService;
 import id.my.hendisantika.ecommerceapp2.service.ProductService;
@@ -9,6 +11,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+
+import java.security.Principal;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -39,4 +46,26 @@ public class HomeViewController {
     //	@Autowired
 //	BCryptPasswordEncoder bCryptPasswordEncoder;
     private final PasswordEncoder passwordEncoder;
+
+    //to track which user is login right Now
+    //by default call this method when any request come to this controller because of @ModelAttribut
+    @ModelAttribute
+    public void getUserDetails(Principal principal, Model model) {
+        if (principal != null) {
+            String currenLoggedInUserEmail = principal.getName();
+            User currentUserDetails = userService.getUserByEmail(currenLoggedInUserEmail);
+            //System.out.println("Current Logged In User is :: HOME Controller :: "+currentUserDetails.toString());
+            model.addAttribute("currentLoggedInUserDetails", currentUserDetails);
+
+            //for showing user cart count
+            Long countCartForUser = cartService.getCounterCart(currentUserDetails.getId());
+            System.out.println("HomeControll Cart Count :" + countCartForUser);
+            model.addAttribute("countCartForUser", countCartForUser);
+
+        }
+
+        List<Category> allActiveCategory = categoryService.findAllActiveCategory();
+        model.addAttribute("allActiveCategory", allActiveCategory);
+
+    }
 }
