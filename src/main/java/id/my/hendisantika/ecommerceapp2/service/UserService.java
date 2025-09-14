@@ -1,7 +1,9 @@
 package id.my.hendisantika.ecommerceapp2.service;
 
+import id.my.hendisantika.ecommerceapp2.entity.User;
 import id.my.hendisantika.ecommerceapp2.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -16,10 +18,29 @@ import org.springframework.stereotype.Service;
  * Time: 05.57
  * To change this template use File | Settings | File Templates.
  */
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
 
     private final PasswordEncoder passwordEncoder;
+
+    public User saveUser(User user) {
+        log.info("user obje :{}", user.toString());
+        user.setRole("ROLE_USER");
+        user.setIsEnable(true);
+        user.setAccountStatusNonLocked(true);
+        user.setAccountFailedAttemptCount(0);
+        user.setAccountLockTime(null);
+        String encodedPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encodedPassword);
+        try {
+            User saveUser = userRepository.save(user);
+
+            return saveUser;
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to create user", e);
+        }
+    }
 }
