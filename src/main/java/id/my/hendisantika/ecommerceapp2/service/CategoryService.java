@@ -32,4 +32,9 @@ public class CategoryService {
         // TODO Auto-generated method stub
         return categoryRepository.findAll();
     }
+
+    public boolean existCategory(String categoryName) {
+        // TODO Auto-generated method stub
+        return categoryRepository.existsByCategoryName(categoryName);
+    }
 }
