@@ -85,4 +85,9 @@ public class HomeViewController {
         model.addAttribute("latestSixActiveCategory", latestSixActiveCategory);
         return "index.html";
     }
+
+    @GetMapping("/signin")
+    public String login() {
+        return "login";
+    }
 }
