@@ -105,4 +105,10 @@ public class UserController {
         Boolean f = cartService.updateCartQuantity(symbol, cartId);
         return "redirect:/user/cart";
     }
+
+    private User getLoggedUserDetails(Principal principal) {
+        String email = principal.getName();
+        User user = userService.getUserByEmail(email);
+        return user;
+    }
 }
