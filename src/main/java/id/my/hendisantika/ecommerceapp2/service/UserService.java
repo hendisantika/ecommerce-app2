@@ -8,6 +8,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by IntelliJ IDEA.
@@ -54,5 +55,19 @@ public class UserService {
     public List<User> getAllUsersByRole(String role) {
         // TODO Auto-generated method stub
         return userRepository.findByRole(role);
+    }
+
+    public Boolean updateUserStatus(Boolean status, Long id) {
+        Optional<User> userById = userRepository.findById(id);
+        if (userById.isPresent()) {
+            User user = userById.get();
+            user.setIsEnable(status);
+            userRepository.save(user);
+
+            return true;
+        } else {
+            return false;
+        }
+
     }
 }
