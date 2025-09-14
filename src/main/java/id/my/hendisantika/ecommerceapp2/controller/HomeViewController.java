@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
 import java.util.List;
@@ -94,5 +95,17 @@ public class HomeViewController {
     @GetMapping("/register")
     public String register() {
         return "register";
+    }
+
+    @GetMapping("/products")
+    public String product(Model model, @RequestParam(name = "category", defaultValue = "") String category) {
+        //System.out.println("Category="+category);
+
+        List<Category> allActiveCategory = categoryService.findAllActiveCategory();
+        List<Product> allActiveProducts = productService.findAllActiveProducts(category);
+        model.addAttribute("allActiveCategory", allActiveCategory);
+        model.addAttribute("allActiveProducts", allActiveProducts);
+        model.addAttribute("paramValue", category);
+        return "product";
     }
 }
