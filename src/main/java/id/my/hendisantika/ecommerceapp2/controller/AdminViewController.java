@@ -1,6 +1,7 @@
 package id.my.hendisantika.ecommerceapp2.controller;
 
 import id.my.hendisantika.ecommerceapp2.entity.Category;
+import id.my.hendisantika.ecommerceapp2.entity.Product;
 import id.my.hendisantika.ecommerceapp2.entity.User;
 import id.my.hendisantika.ecommerceapp2.service.CartService;
 import id.my.hendisantika.ecommerceapp2.service.CategoryService;
@@ -217,4 +218,27 @@ public class AdminViewController {
         return "/admin/product/add-product";
     }
 
+    @PostMapping("/save-product")
+    public String saveProduct(@ModelAttribute Product product, @RequestParam("file") MultipartFile file, HttpSession session) throws IOException {
+        String imageName = file != null ? file.getOriginalFilename() : "default.png";
+
+        product.setProductImage(imageName);
+        product.setDiscount(0);
+        product.setDiscountPrice(product.getProductPrice());
+
+        Product saveProduct = productService.saveProduct(product);
+
+        if (!ObjectUtils.isEmpty(saveProduct)) {
+            File savefile = new ClassPathResource("static/img").getFile();
+            Path path = Paths.get(savefile.getAbsolutePath() + File.separator + "product_image" + File.separator + imageName);
+            log.info("File save Path :{}", path);
+            Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+            session.setAttribute("successMsg", "Product Save Successfully.");
+        } else {
+            session.setAttribute("errorMsg", "Something Wrong on server while save Product");
+            //System.out.println("Something Wrong on server while save Product");
+        }
+
+        return "redirect:/admin/product-list";
+    }
 }
