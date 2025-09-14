@@ -7,8 +7,12 @@ import id.my.hendisantika.ecommerceapp2.repository.CartRepository;
 import id.my.hendisantika.ecommerceapp2.repository.ProductRepository;
 import id.my.hendisantika.ecommerceapp2.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -21,6 +25,7 @@ import org.springframework.util.ObjectUtils;
  * Time: 05.45
  * To change this template use File | Settings | File Templates.
  */
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CartService {
@@ -54,5 +59,29 @@ public class CartService {
         Cart saveCart = cartRepository.save(cart);
 
         return saveCart;
+    }
+
+    public List<Cart> getCartsByUser(Long userId) {
+        List<Cart> carts = cartRepository.findByUserId(userId);
+        //System.out.println("CARTS :"+carts.toString());
+
+        Double totalOrderPrice = 0.0;
+
+        // because of my totalPrice colum is transient, so we dont get totalPrice
+        // directly from database table.
+        // we need to fetch it
+        List<Cart> updatedCartList = new ArrayList<>();
+        for (Cart cart : carts) {
+            Double totalPrice = (cart.getProduct().getDiscountPrice() * cart.getQuantity());
+            cart.setTotalPrice(totalPrice);
+            log.info("totalPrice is :{}", totalPrice);
+
+            totalOrderPrice = totalOrderPrice + totalPrice;
+
+            cart.setTotalOrderPrice(totalOrderPrice);
+            log.info("totalOrderPrice is :{}", totalOrderPrice);
+            updatedCartList.add(cart);
+        }
+        return updatedCartList;
     }
 }
