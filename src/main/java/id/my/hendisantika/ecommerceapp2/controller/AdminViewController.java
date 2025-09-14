@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,6 +30,7 @@ import java.nio.file.StandardCopyOption;
 import java.security.Principal;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by IntelliJ IDEA.
@@ -127,5 +129,18 @@ public class AdminViewController {
 
         model.addAttribute("allCategoryList", allCategories);
         return "/admin/category/category-home";
+    }
+
+    @GetMapping("/edit-category/{id}")
+    public String editCategoryForm(@PathVariable("id") long id, Model model) {
+        //System.out.println("ID :"+id);
+        Optional<Category> categoryObj = categoryService.findById(id);
+        if (categoryObj.isPresent()) {
+            Category category = categoryObj.get();
+            model.addAttribute("category", category);
+        } else {
+            System.out.println("ELSEEEEE");
+        }
+        return "/admin/category/category-edit-form";
     }
 }
