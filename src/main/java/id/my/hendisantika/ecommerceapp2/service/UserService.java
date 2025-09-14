@@ -82,4 +82,24 @@ public class UserService {
         user.setAccountLockTime(new Date());
         userRepository.save(user);
     }
+
+    public boolean isUnlockAccountTimeExpired(User user) {
+        long accountLockTime = user.getAccountLockTime().getTime();
+        System.out.println("Account LockTime: " + accountLockTime);
+        long accountUnlockTime = accountLockTime + AppConstant.UNLOCK_DURATION_TIME;
+        System.out.println("Account Unlock Time :" + accountUnlockTime);
+
+        long currentTime = System.currentTimeMillis();
+        System.out.println("currentTime :" + currentTime);
+
+        if (accountUnlockTime < currentTime) {
+            user.setAccountStatusNonLocked(true);
+            user.setAccountFailedAttemptCount(0);
+            user.setAccountLockTime(null);
+            userRepository.save(user);
+            return true;
+        }
+
+        return false;
+    }
 }
