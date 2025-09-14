@@ -241,4 +241,10 @@ public class AdminViewController {
 
         return "redirect:/admin/product-list";
     }
+
+    @GetMapping("/product-list")
+    public String productList(Model model) {
+        model.addAttribute("productList", productService.getAllProducts());
+        return "/admin/product/product-list";
+    }
 }
