@@ -8,6 +8,8 @@ import id.my.hendisantika.ecommerceapp2.service.CategoryService;
 import id.my.hendisantika.ecommerceapp2.service.ProductService;
 import id.my.hendisantika.ecommerceapp2.service.UserService;
 import id.my.hendisantika.ecommerceapp2.util.CommonUtils;
+import jakarta.mail.MessagingException;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,12 +27,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.security.Principal;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by IntelliJ IDEA.
@@ -162,5 +166,35 @@ public class HomeViewController {
     @GetMapping("/forgot-password")
     public String forgotPassword() {
         return "forget-password";
+    }
+
+    @PostMapping("/forgot-password")
+    public String forgetPasswordProcessing(@RequestParam String email, HttpSession session, HttpServletRequest request) throws UnsupportedEncodingException, MessagingException {
+        User user = userService.getUserByEmail(email);
+        if (!ObjectUtils.isEmpty(user)) {
+
+            String resetToken = UUID.randomUUID().toString();
+            System.out.println("RESET TOKEN: " + resetToken);
+            userService.updateUserResetTokenForSendingEmail(email, resetToken);
+
+
+            //URL Like This : http://localhost:8080/reset-password?token=dfjdlkfjsldfdlfkdflkdfjdlk
+            String url = CommonUtils.generateUrl(request) + "/reset-password?token=" + resetToken;
+            System.out.println("url :" + url);
+
+
+            //Boolean isEmailSendToUser = CommonUtils.sendEmail(url, email);
+            Boolean isEmailSendToUser = commonUtils.sendEmail(url, email);
+
+            if (isEmailSendToUser == true) {
+                session.setAttribute("successMsg", "Please check your email, Password Reset Link has been sent to your email.");
+            } else {
+                session.setAttribute("errorMsg", "Something wrong on server. Email Not Sent!");
+            }
+
+        } else {
+            session.setAttribute("errorMsg", "Invalid Email");
+        }
+        return "redirect:/forgot-password";
     }
 }
