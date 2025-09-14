@@ -4,6 +4,7 @@ import id.my.hendisantika.ecommerceapp2.entity.Category;
 import id.my.hendisantika.ecommerceapp2.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import java.util.List;
 
@@ -36,5 +37,17 @@ public class CategoryService {
     public boolean existCategory(String categoryName) {
         // TODO Auto-generated method stub
         return categoryRepository.existsByCategoryName(categoryName);
+    }
+
+    public Boolean deleteCategory(long id) {
+        // TODO Auto-generated method stub
+        Category categoryFound = categoryRepository.findById(id).orElse(null);
+
+        if (!ObjectUtils.isEmpty(categoryFound)) {
+            categoryRepository.delete(categoryFound);
+            return true;
+        }
+
+        return false;
     }
 }
