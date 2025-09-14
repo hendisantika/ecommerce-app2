@@ -27,6 +27,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.security.Principal;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 /**
@@ -110,5 +111,21 @@ public class AdminViewController {
 
         }
         return "redirect:/admin/category";
+    }
+
+    @GetMapping("/category")
+    public String category(Model model) {
+        log.info("category:WWWWWWWWW");
+        List<Category> allCategories = categoryService.getAllCategories();
+        log.info("category: {}", allCategories.toString());
+        for (Category category : allCategories) {
+            //category.getCreatedAt();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyy HH:mm:ss");
+            String format = formatter.format(category.getCreatedAt());
+            model.addAttribute("formattedDateTimeCreatedAt", format);
+        }
+
+        model.addAttribute("allCategoryList", allCategories);
+        return "/admin/category/category-home";
     }
 }
