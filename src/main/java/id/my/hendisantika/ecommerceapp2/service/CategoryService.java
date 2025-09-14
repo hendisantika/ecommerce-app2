@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by IntelliJ IDEA.
@@ -49,5 +50,10 @@ public class CategoryService {
         }
 
         return false;
+    }
+
+    public Optional<Category> findById(long id) {
+        // TODO Auto-generated method stub
+        return categoryRepository.findById(id);
     }
 }
