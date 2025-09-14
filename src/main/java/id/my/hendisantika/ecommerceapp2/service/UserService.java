@@ -106,4 +106,10 @@ public class UserService {
     public void userFailedAttempt(int userId) {
         // TODO Auto-generated method stub
     }
+
+    public void updateUserResetTokenForSendingEmail(String email, String resetToken) {
+        User user = userRepository.findByEmail(email);
+        user.setResetTokens(resetToken);
+        userRepository.save(user);
+    }
 }
