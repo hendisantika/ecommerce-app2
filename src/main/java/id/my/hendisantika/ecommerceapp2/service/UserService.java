@@ -7,6 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * Created by IntelliJ IDEA.
  * Project : ecommerce-app2
@@ -47,5 +49,10 @@ public class UserService {
     public User getUserByEmail(String email) {
         // TODO Auto-generated method stub
         return userRepository.findByEmail(email);
+    }
+
+    public List<User> getAllUsersByRole(String role) {
+        // TODO Auto-generated method stub
+        return userRepository.findByRole(role);
     }
 }
