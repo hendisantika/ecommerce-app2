@@ -304,4 +304,15 @@ public class AdminViewController {
         return "/admin/users/user-home";
     }
 
+    @GetMapping("/edit-user-status")
+    public String editUser(@RequestParam("status") Boolean status, @RequestParam("id") Long id, Model model, HttpSession session) {
+        Boolean updateUserStatus = userService.updateUserStatus(status, id);
+        if (updateUserStatus == true) {
+            session.setAttribute("successMsg", "User Status Updated Successfully.");
+        } else {
+            session.setAttribute("errorMsg", "Something Wrong on server while Updating User status");
+        }
+        return "redirect:/admin/get-all-users";
+    }
+
 }
