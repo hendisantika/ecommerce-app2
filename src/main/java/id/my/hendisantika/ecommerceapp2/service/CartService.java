@@ -13,6 +13,7 @@ import org.springframework.util.ObjectUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by IntelliJ IDEA.
@@ -88,5 +89,27 @@ public class CartService {
     public Long getCounterCart(Long userId) {
         Long cartCountByUserId = cartRepository.countByUserId(userId);
         return cartCountByUserId;
+    }
+
+    public Boolean updateCartQuantity(String symbol, Long cartId) {
+        Optional<Cart> cart = cartRepository.findById(cartId);
+        int quantity;
+        if (cart.isPresent()) {
+            if (symbol.equalsIgnoreCase("decrease")) {
+                Integer dbQty = cart.get().getQuantity();
+                quantity = dbQty - 1;
+                if (quantity <= 0) {
+                    cartRepository.deleteById(cartId);
+                    return true;
+                }
+
+            } else {
+                Integer dbQty = cart.get().getQuantity();
+                quantity = dbQty + 1;
+            }
+            cart.get().setQuantity(quantity);
+            cartRepository.save(cart.get());
+        }
+        return false;
     }
 }
