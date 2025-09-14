@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" th:replace="~{base::layout(~{::section})}"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+</head>
+<body>
+<section>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-6">
+                <p class="fs-4 text-center">Please Fill Up</p>
+                <hr>
+                <form action="">
+                    <div class="mb-5 row">
+                        <div class="col">
+                            <input class="form-control" name="firstName" placeholder="First Name" type="text">
+                        </div>
+                        <div class="col">
+                            <input class="form-control" name="lastName" placeholder="Last Name" type="text">
+                        </div>
+                    </div>
+
+                    <div class="mb-5 row">
+                        <div class="col">
+                            <input class="form-control" name="email" placeholder="Email" type="email">
+                        </div>
+                        <div class="col">
+                            <input class="form-control" name="mobile" placeholder="Mobile" type="text">
+                        </div>
+                    </div>
+
+                    <div class="mb-5 row">
+                        <div class="col">
+                            <input class="form-control" name="address" placeholder="Address" type="text">
+                        </div>
+                        <div class="col">
+                            <input class="form-control" name="city" placeholder="City" type="text">
+                        </div>
+                    </div>
+
+                    <div class="mb-5 row">
+                        <div class="col">
+                            <input class="form-control" name="state" placeholder="State" type="text">
+                        </div>
+                        <div class="col">
+                            <input class="form-control" name="pincode" placeholder="PIN Code" type="number">
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="col-md-6">
+                <p class="fs-4 text-center">Payment Type</p>
+                <hr>
+
+                <div class="card">
+                    <div class="card-body">
+                        <table class="table table-borderless">
+                            <tbody>
+                            <tr>
+                                <td>Total Price</td>
+                                <td>:</td>
+                                <td>&#2547; [[${orderPrice}]]</td>
+                            </tr>
+                            <tr>
+                                <td>Delivery Cost</td>
+                                <td>:</td>
+                                <td>&#2547; 250</td>
+                            </tr>
+                            <tr>
+                                <td>Tax</td>
+                                <td>:</td>
+                                <td>&#2547; 100</td>
+                            </tr>
+
+                            <tr>
+                                <td>Total Order Price</td>
+                                <td>:</td>
+                                <td>&#2547; [[${totalOrderPrice}]]</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="card shadow p-3 mb-5 bg-body rounded">
+
+                    <div class="card-body">
+                        <form action="/login" method="post">
+                            <div class="mb-3">
+                                <label class="form-label">Select Payment Type</label>
+                                <select class="form-control">
+                                    <option>---Select---</option>
+                                    <option>Cash On Delivery</option>
+                                    <option>Online Payment</option>
+                                </select>
+                            </div>
+
+                            <button class="btn bg-danger text-white col-md-12" type="submit">Place Order</button>
+                        </form>
+
+
+                    </div>
+                    <div class="card-footer text-center">
+                        <a class="text-decoration-none" href="/forgot-password">Forgot Password ?</a><br>Don't have an
+                        account?
+                        <a class="text-decoration-none" href="/register"> Create One</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+</body>
+</html>
