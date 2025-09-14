@@ -1,7 +1,10 @@
 package id.my.hendisantika.ecommerceapp2.controller;
 
+import id.my.hendisantika.ecommerceapp2.entity.Category;
 import id.my.hendisantika.ecommerceapp2.service.CategoryService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,4 +25,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class AdminRestController {
 
     private final CategoryService categoryService;
+
+    @PostMapping("/save-category")
+    public String saveCategory(@ModelAttribute Category category) {
+        categoryService.saveCategory(category);
+        return "redirect:/category";
+    }
 }
