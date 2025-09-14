@@ -101,4 +101,16 @@ public class ProductService {
         }
         return null;
     }
+
+    public List<Product> findAllActiveProducts(String category) {
+        List<Product> products = null;
+        if (ObjectUtils.isEmpty(category)) {
+            products = productRepository.findByIsActiveTrue();
+        } else {
+            products = productRepository.findByProductCategory(category);
+        }
+
+        return products;
+    }
+
 }
