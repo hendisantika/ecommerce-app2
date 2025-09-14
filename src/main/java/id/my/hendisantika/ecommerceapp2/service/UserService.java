@@ -102,4 +102,8 @@ public class UserService {
 
         return false;
     }
+
+    public void userFailedAttempt(int userId) {
+        // TODO Auto-generated method stub
+    }
 }
