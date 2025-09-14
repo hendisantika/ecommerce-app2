@@ -259,4 +259,12 @@ public class AdminViewController {
         }
         return "redirect:/admin/product-list";
     }
+
+    @GetMapping("/edit-product/{id}")
+    public String editProduct(@PathVariable long id, Model model) {
+        Product product = productService.getProductById(id);
+        model.addAttribute("product", product);
+        model.addAttribute("allCategoryList", categoryService.getAllCategories());
+        return "/admin/product/edit-product";
+    }
 }
