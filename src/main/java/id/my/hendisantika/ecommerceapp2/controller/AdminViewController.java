@@ -139,8 +139,61 @@ public class AdminViewController {
             Category category = categoryObj.get();
             model.addAttribute("category", category);
         } else {
-            System.out.println("ELSEEEEE");
+            log.info("ELSEEEEE");
         }
         return "/admin/category/category-edit-form";
+    }
+
+    @PostMapping("/update-category")
+    public String updateCategory(@ModelAttribute Category category, @RequestParam("file") MultipartFile file, HttpSession session) throws IOException {
+        log.info("Category for UPDATE :{}", category.toString());
+
+        Optional<Category> categoryById = categoryService.findById(category.getId());
+        log.info("Category obj{}", categoryById.toString());
+
+        if (categoryById.isPresent()) {
+            log.info("Present:");
+            Category oldCategory = categoryById.get();
+            log.info("Category old Obj {}", oldCategory);
+            oldCategory.setCategoryName(category.getCategoryName());
+            oldCategory.setIsActive(category.getIsActive());
+            //oldCategory.setUpdatedAt(LocalDateTime.now());
+
+
+            String imageName = file.isEmpty() ? oldCategory.getCategoryImage() : file.getOriginalFilename();
+            oldCategory.setCategoryImage(imageName);
+
+            Category updatedCategory = categoryService.saveCategory(oldCategory);
+
+            if (!ObjectUtils.isEmpty(updatedCategory)) {
+                //save File
+                if (!file.isEmpty()) {
+                    File saveFile = new ClassPathResource("static/img").getFile();
+                    Path path = Paths.get(saveFile.getAbsolutePath() + File.separator + "category" + File.separator + file.getOriginalFilename());
+                    log.info("File Update path: {}", path);
+                    Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+                }
+
+                session.setAttribute("successMsg", "Category Updated Successfully");
+            } else {
+                session.setAttribute("errorMsg", "Something wrong on server!");
+            }
+
+
+            //OR
+//			if(file!=null) {
+//				String newImageName = file.getOriginalFilename();
+//				log.info();("File name: "+newImageName);
+//				oldCategory.setCategoryImage(newImageName);
+//			}else {
+//				String oldOriginalImg = oldCategory.getCategoryImage();
+//				log.info();("File name ELSE: "+oldOriginalImg);
+//				oldCategory.setCategoryImage(oldOriginalImg);
+//			}
+        } else {
+            log.info("Not Present:");
+        }
+
+        return "redirect:/admin/category";
     }
 }
