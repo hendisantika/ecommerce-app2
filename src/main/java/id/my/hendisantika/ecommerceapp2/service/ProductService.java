@@ -5,6 +5,8 @@ import id.my.hendisantika.ecommerceapp2.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * Created by IntelliJ IDEA.
  * Project : ecommerce-app2
@@ -24,5 +26,10 @@ public class ProductService {
     public Product saveProduct(Product product) {
         // TODO Auto-generated method stub
         return productRepository.save(product);
+    }
+
+    public List<Product> getAllProducts() {
+        // TODO Auto-generated method stub
+        return productRepository.findAll();
     }
 }
