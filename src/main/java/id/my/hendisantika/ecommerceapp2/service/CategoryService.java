@@ -5,6 +5,8 @@ import id.my.hendisantika.ecommerceapp2.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * Created by IntelliJ IDEA.
  * Project : ecommerce-app2
@@ -24,5 +26,10 @@ public class CategoryService {
     public Category saveCategory(Category category) {
         // TODO Auto-generated method stub
         return categoryRepository.save(category);
+    }
+
+    public List<Category> getAllCategories() {
+        // TODO Auto-generated method stub
+        return categoryRepository.findAll();
     }
 }
