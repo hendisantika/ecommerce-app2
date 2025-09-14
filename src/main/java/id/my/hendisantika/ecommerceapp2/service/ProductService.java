@@ -49,4 +49,9 @@ public class ProductService {
         // TODO Auto-generated method stub
         return Optional.empty();
     }
+
+    public Product getProductById(long id) {
+        // TODO Auto-generated method stub
+        return productRepository.findById(id).orElse(null);
+    }
 }
