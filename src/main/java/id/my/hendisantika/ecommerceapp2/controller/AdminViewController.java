@@ -208,4 +208,13 @@ public class AdminViewController {
 
         return "redirect:/admin/category";
     }
+
+    //PRODUCT-MODULE-START
+    @GetMapping("/add-product")
+    public String addProduct(Model model) {
+        List<Category> allCategories = categoryService.getAllCategories();
+        model.addAttribute("allCategoryList", allCategories);
+        return "/admin/product/add-product";
+    }
+
 }
