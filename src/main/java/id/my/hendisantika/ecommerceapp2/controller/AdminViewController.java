@@ -66,4 +66,10 @@ public class AdminViewController {
     public String adminIndex() {
         return "admin/admin-dashboard";
     }
+
+    //CATEGORY-MODULE-START
+    @GetMapping("/add-category")
+    public String addCategory(Model model) {
+        return "admin/category/category-add-form";
+    }
 }
