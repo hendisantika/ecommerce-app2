@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by IntelliJ IDEA.
@@ -31,5 +32,17 @@ public class ProductService {
     public List<Product> getAllProducts() {
         // TODO Auto-generated method stub
         return productRepository.findAll();
+    }
+
+    public Boolean deleteProduct(long id) {
+        // TODO Auto-generated method stub
+        Optional<Product> product = productRepository.findById(id);
+        if (product.isPresent()) {
+            productRepository.deleteById(product.get().getId());
+            return true;
+        } else {
+            return false;
+        }
+
     }
 }
