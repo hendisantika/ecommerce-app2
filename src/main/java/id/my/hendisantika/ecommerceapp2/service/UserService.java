@@ -43,4 +43,9 @@ public class UserService {
             throw new RuntimeException("Failed to create user", e);
         }
     }
+
+    public User getUserByEmail(String email) {
+        // TODO Auto-generated method stub
+        return userRepository.findByEmail(email);
+    }
 }
