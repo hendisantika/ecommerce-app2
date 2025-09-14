@@ -267,4 +267,23 @@ public class AdminViewController {
         model.addAttribute("allCategoryList", categoryService.getAllCategories());
         return "/admin/product/edit-product";
     }
+
+    @PostMapping("/update-product")
+    public String updateProduct(@ModelAttribute Product product, @RequestParam("file") MultipartFile file,
+                                HttpSession session, Model model) {
+
+        if (product.getDiscount() < 0 || product.getDiscount() > 100) {
+            session.setAttribute("errorMsg", "INVALID DISCOUNT!");
+        } else {
+            Product updateProduct = productService.updateProductById(product, file);
+            if (!ObjectUtils.isEmpty(updateProduct)) {
+                session.setAttribute("successMsg", "Product Updated Successfully.");
+            } else {
+                session.setAttribute("errorMsg", "Something Wrong on server while deleting Product");
+            }
+        }
+
+        // return "redirect:/admin/product/edit-product";
+        return "redirect:/admin/product-list";
+    }
 }
