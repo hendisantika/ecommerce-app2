@@ -8,6 +8,7 @@ import id.my.hendisantika.ecommerceapp2.service.CategoryService;
 import id.my.hendisantika.ecommerceapp2.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.ObjectUtils;
@@ -30,6 +31,7 @@ import java.util.List;
  * Time: 06.44
  * To change this template use File | Settings | File Templates.
  */
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/user")
@@ -49,12 +51,12 @@ public class UserController {
         if (principal != null) {
             String currenLoggedInUserEmail = principal.getName();
             User currentUserDetails = userService.getUserByEmail(currenLoggedInUserEmail);
-            //System.out.println("Current Logged In User is :: USER Controller :: "+currentUserDetails.toString());
+            //log.info("Current Logged In User is :: USER Controller :: "+currentUserDetails.toString());
             model.addAttribute("currentLoggedInUserDetails", currentUserDetails);
 
             //for showing user cart count
             Long countCartForUser = cartService.getCounterCart(currentUserDetails.getId());
-            //System.out.println("User Cart Count :"+countCartForUser);
+            //log.info("User Cart Count :"+countCartForUser);
             model.addAttribute("countCartForUser", countCartForUser);
         }
 
@@ -70,17 +72,17 @@ public class UserController {
     //ADD TO CART Module
     @GetMapping("/add-to-cart")
     String addToCart(@RequestParam Long productId, @RequestParam Long userId, HttpSession session) {
-        System.out.println("INSIDE ITS");
+        log.info("INSIDE ITS");
         Cart saveCart = cartService.saveCart(productId, userId);
 
-        //System.out.println("save Cart is :"+saveCart);
+        //log.info("save Cart is :"+saveCart);
         if (ObjectUtils.isEmpty(saveCart)) {
-            System.out.println("INSIDE Error");
+            log.info("INSIDE Error");
             session.setAttribute("errorMsg", "Failed Product add to Cart");
         } else {
             session.setAttribute("successMsg", "Successfully, Product added to Cart");
         }
-        System.out.println("pid" + productId + " uid:" + userId);
+        log.info("pid{} uid:{}", productId, userId);
         return "redirect:/product/" + productId;
     }
 
@@ -101,7 +103,7 @@ public class UserController {
 
     @GetMapping("/cart-quantity-update")
     public String updateCartQuantity(@RequestParam("symbol") String symbol, @RequestParam("cartId") Long cartId) {
-        System.out.println(symbol + " " + cartId);
+        log.info("{} {}", symbol, cartId);
         Boolean f = cartService.updateCartQuantity(symbol, cartId);
         return "redirect:/user/cart";
     }
@@ -110,5 +112,22 @@ public class UserController {
         String email = principal.getName();
         User user = userService.getUserByEmail(email);
         return user;
+    }
+
+    @GetMapping("/orders")
+    public String orderPage(Principal principal, Model model) {
+        //when load cart, it is showing logged in user cart details:
+
+
+        User user = getLoggedUserDetails(principal);
+        List<Cart> carts = cartService.getCartsByUser(user.getId());
+        model.addAttribute("carts", carts);
+        if (carts.size() > 0) {
+            Double orderPrice = carts.get(carts.size() - 1).getTotalOrderPrice();
+            Double totalOrderPrice = carts.get(carts.size() - 1).getTotalOrderPrice() + 250 + 100;
+            model.addAttribute("orderPrice", orderPrice);
+            model.addAttribute("totalOrderPrice", totalOrderPrice);
+        }
+        return "/user/order";
     }
 }
