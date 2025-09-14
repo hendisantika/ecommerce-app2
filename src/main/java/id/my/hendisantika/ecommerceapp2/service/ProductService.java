@@ -1,5 +1,6 @@
 package id.my.hendisantika.ecommerceapp2.service;
 
+import id.my.hendisantika.ecommerceapp2.entity.Product;
 import id.my.hendisantika.ecommerceapp2.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,4 +20,9 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ProductService {
     private final ProductRepository productRepository;
+
+    public Product saveProduct(Product product) {
+        // TODO Auto-generated method stub
+        return productRepository.save(product);
+    }
 }
