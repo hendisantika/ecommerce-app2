@@ -68,6 +68,12 @@ public class UserService {
         } else {
             return false;
         }
+    }
+
+    public void userFailedAttemptIncrease(User user) {
+        int userAttempt = user.getAccountFailedAttemptCount() + 1;
+        user.setAccountFailedAttemptCount(userAttempt);
+        userRepository.save(user);
 
     }
 }
