@@ -117,4 +117,9 @@ public class UserService {
         // TODO Auto-generated method stub
         return userRepository.findByResetTokens(token);
     }
+
+    public User updateUserWhileResettingPassword(User userByToken) {
+        // TODO Auto-generated method stub
+        return userRepository.save(userByToken);
+    }
 }
