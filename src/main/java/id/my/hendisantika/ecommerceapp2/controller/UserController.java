@@ -98,4 +98,11 @@ public class UserController {
 
         return "/user/cart";
     }
+
+    @GetMapping("/cart-quantity-update")
+    public String updateCartQuantity(@RequestParam("symbol") String symbol, @RequestParam("cartId") Long cartId) {
+        System.out.println(symbol + " " + cartId);
+        Boolean f = cartService.updateCartQuantity(symbol, cartId);
+        return "redirect:/user/cart";
+    }
 }
