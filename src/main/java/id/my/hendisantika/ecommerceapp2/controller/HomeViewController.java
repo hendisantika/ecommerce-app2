@@ -8,16 +8,27 @@ import id.my.hendisantika.ecommerceapp2.service.CategoryService;
 import id.my.hendisantika.ecommerceapp2.service.ProductService;
 import id.my.hendisantika.ecommerceapp2.service.UserService;
 import id.my.hendisantika.ecommerceapp2.util.CommonUtils;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.security.Principal;
 import java.util.List;
 
@@ -115,5 +126,34 @@ public class HomeViewController {
         Product productById = productService.getProductById(id);
         model.addAttribute("product", productById);
         return "view-product";
+    }
+
+    @PostMapping("/save-user")
+    public String saveUserDetails(@ModelAttribute User user, @RequestParam("file") MultipartFile file, Model model, HttpSession session) throws IOException {
+        String profileImage = file.isEmpty() ? "default.jpg" : file.getOriginalFilename();
+        user.setProfileImage(profileImage);
+
+        User saveUser = userService.saveUser(user);
+
+        if (!ObjectUtils.isEmpty(saveUser)) {
+            if (!file.isEmpty()) {
+                //get path to static/img directory
+                File saveFile = new ClassPathResource("static/img").getFile();
+                System.out.println("SaveFile is: " + saveFile);
+
+                //full-path
+                Path path = Paths.get(saveFile.getAbsolutePath() + File.separator + "profile_img" + File.separator + file.getOriginalFilename());
+                System.out.println("Path for Profile Image :" + path);
+
+                //now
+                Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+            }
+            session.setAttribute("successMsg", "User Registered Successfully");
+
+        } else {
+            session.setAttribute("errorMsg", "Something wrong on server!");
+        }
+        //model.addAttribute("product",productById);
+        return "redirect:/register";
     }
 }
