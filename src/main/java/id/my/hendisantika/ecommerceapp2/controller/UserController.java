@@ -1,16 +1,20 @@
 package id.my.hendisantika.ecommerceapp2.controller;
 
+import id.my.hendisantika.ecommerceapp2.entity.Cart;
 import id.my.hendisantika.ecommerceapp2.entity.Category;
 import id.my.hendisantika.ecommerceapp2.entity.User;
 import id.my.hendisantika.ecommerceapp2.service.CartService;
 import id.my.hendisantika.ecommerceapp2.service.CategoryService;
 import id.my.hendisantika.ecommerceapp2.service.UserService;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
 import java.util.List;
@@ -61,5 +65,22 @@ public class UserController {
     @GetMapping("/")
     public String home() {
         return "user/user-home";
+    }
+
+    //ADD TO CART Module
+    @GetMapping("/add-to-cart")
+    String addToCart(@RequestParam Long productId, @RequestParam Long userId, HttpSession session) {
+        System.out.println("INSIDE ITS");
+        Cart saveCart = cartService.saveCart(productId, userId);
+
+        //System.out.println("save Cart is :"+saveCart);
+        if (ObjectUtils.isEmpty(saveCart)) {
+            System.out.println("INSIDE Error");
+            session.setAttribute("errorMsg", "Failed Product add to Cart");
+        } else {
+            session.setAttribute("successMsg", "Successfully, Product added to Cart");
+        }
+        System.out.println("pid" + productId + " uid:" + userId);
+        return "redirect:/product/" + productId;
     }
 }
