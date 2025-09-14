@@ -156,4 +156,11 @@ public class HomeViewController {
         //model.addAttribute("product",productById);
         return "redirect:/register";
     }
+
+    //forgot Password
+
+    @GetMapping("/forgot-password")
+    public String forgotPassword() {
+        return "forget-password";
+    }
 }
