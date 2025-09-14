@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -59,6 +60,10 @@ public class AdminViewController {
         }
         List<Category> allActiveCategory = categoryService.findAllActiveCategory();
         model.addAttribute("allActiveCategory", allActiveCategory);
+    }
 
+    @GetMapping("/")
+    public String adminIndex() {
+        return "admin/admin-dashboard";
     }
 }
