@@ -83,4 +83,19 @@ public class UserController {
         System.out.println("pid" + productId + " uid:" + userId);
         return "redirect:/product/" + productId;
     }
+
+    @GetMapping("/cart")
+    String loadCartPage(Principal principal, Model model) {
+        //when load cart, it is showing logged in user cart details:
+
+        User user = getLoggedUserDetails(principal);
+        List<Cart> carts = cartService.getCartsByUser(user.getId());
+        model.addAttribute("carts", carts);
+        if (carts.size() > 0) {
+            Double totalOrderPrice = carts.get(carts.size() - 1).getTotalOrderPrice();
+            model.addAttribute("totalOrderPrice", totalOrderPrice);
+        }
+
+        return "/user/cart";
+    }
 }
