@@ -196,4 +196,16 @@ public class AdminViewController {
 
         return "redirect:/admin/category";
     }
+
+    @GetMapping("/delete-category/{id}")
+    public String deleteCategory(@PathVariable("id") long id, HttpSession session) {
+        Boolean deleteCategory = categoryService.deleteCategory(id);
+        if (deleteCategory) {
+            session.setAttribute("successMsg", "Category Deleted Successfully");
+        } else {
+            session.setAttribute("errorMsg", "Server Error");
+        }
+
+        return "redirect:/admin/category";
+    }
 }
