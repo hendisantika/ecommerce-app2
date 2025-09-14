@@ -43,6 +43,10 @@ public class ProductService {
         } else {
             return false;
         }
+    }
 
+    public Optional<Product> findById(long id) {
+        // TODO Auto-generated method stub
+        return Optional.empty();
     }
 }
