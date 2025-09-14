@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -74,6 +75,11 @@ public class UserService {
         int userAttempt = user.getAccountFailedAttemptCount() + 1;
         user.setAccountFailedAttemptCount(userAttempt);
         userRepository.save(user);
+    }
 
+    public void userAccountLock(User user) {
+        user.setAccountStatusNonLocked(false);
+        user.setAccountLockTime(new Date());
+        userRepository.save(user);
     }
 }
