@@ -8,6 +8,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
@@ -33,6 +34,7 @@ public class AuthFailureHandlerImpl extends SimpleUrlAuthenticationFailureHandle
 
     private final UserRepository userRepository;
 
+    @Lazy
     private final UserService userService;
 
     @Override
