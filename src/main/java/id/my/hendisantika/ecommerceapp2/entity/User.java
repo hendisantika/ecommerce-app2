@@ -1,5 +1,6 @@
 package id.my.hendisantika.ecommerceapp2.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -42,6 +43,7 @@ public class User {
 
     private String mobile;
 
+    @Column(unique = true)
     private String email;
 
     private String address;

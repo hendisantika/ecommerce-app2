@@ -42,7 +42,7 @@ public class AuthFailureHandlerImpl extends SimpleUrlAuthenticationFailureHandle
                                         AuthenticationException exception) throws IOException, ServletException {
 
         String email = request.getParameter("username");
-        User user = userRepository.findByEmail(email);
+        User user = userRepository.findByEmail(email).orElse(null);
 
         if (user != null) {
             if (user.getIsEnable()) {

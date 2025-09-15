@@ -17,7 +17,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
  * Time: 05.52
  * To change this template use File | Settings | File Templates.
  */
-@Service
+@Service("commonServiceImpl")
 public class CommonService {
     public void removeSessionMessage() {
         HttpServletRequest request = ((ServletRequestAttributes) (RequestContextHolder.getRequestAttributes())).getRequest();

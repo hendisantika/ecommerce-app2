@@ -52,7 +52,7 @@ public class UserService {
 
     public User getUserByEmail(String email) {
         // TODO Auto-generated method stub
-        return userRepository.findByEmail(email);
+        return userRepository.findByEmail(email).orElse(null);
     }
 
     public List<User> getAllUsersByRole(String role) {
@@ -110,9 +110,11 @@ public class UserService {
     }
 
     public void updateUserResetTokenForSendingEmail(String email, String resetToken) {
-        User user = userRepository.findByEmail(email);
-        user.setResetTokens(resetToken);
-        userRepository.save(user);
+        User user = userRepository.findByEmail(email).orElse(null);
+        if (user != null) {
+            user.setResetTokens(resetToken);
+            userRepository.save(user);
+        }
     }
 
     public User getUserByResetTokens(String token) {
