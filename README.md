@@ -230,3 +230,27 @@ For support and questions:
 
 **Note**: This application is part of a learning project demonstrating modern e-commerce application development with
 Spring Boot.
+
+### Image Screenshots
+
+Home Page
+
+![Home Page](img/home.png "Home Page")
+
+![Home Page](img/home2.png "Home Page")
+
+Register Page
+
+![Register Page](img/register.png "Register Page")
+
+Login Page
+
+![Login Page](img/login.png "Login Page")
+
+Product Details Page
+
+![Product Details Page](img/products.png "Product Details Page")
+
+Admin Dashboard
+
+![Admin Dashboard](img/admin.png "Admin Dashboard")
