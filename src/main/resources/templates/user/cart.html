@@ -65,7 +65,8 @@
                             <tbody>
                             <tr th:each="cart, count : ${carts}">
                                 <th scope="row">[[${count.count}]]</th>
-                                <td><img height="50px;" th:src="@{'/img/product_image/'+${cart.product.productImage}}"
+                                <td><img height="50px;"
+                                         th:src="${@imageUtils.getProductImagePath(cart.product.productImage)}"
                                          width="50px;"></td>
                                 <td>[[${cart.product.productTitle}]]</td>
                                 <td>[[${cart.product.discountPrice}]]</td>

@@ -77,7 +77,7 @@
 
                     <div class="col-md-6 text-center">
                         <img alt="product_image" height="400px"
-                             th:src="@{'/img/product_image/'+${product.productImage}}" width="330px">
+                             th:src="${@imageUtils.getProductImagePath(product.productImage)}" width="330px">
                     </div>
 
 
