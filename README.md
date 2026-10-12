@@ -1,5 +1,7 @@
 # E-Commerce Application 2
 
+[![Java CI with Maven](https://github.com/hendisantika/ecommerce-app2/actions/workflows/maven.yml/badge.svg)](https://github.com/hendisantika/ecommerce-app2/actions/workflows/maven.yml)
+
 A comprehensive e-commerce web application built with Spring Boot, featuring user authentication, product management,
 shopping cart functionality, and order processing.
 
@@ -23,12 +25,12 @@ shopping cart functionality, and order processing.
 
 ## 🛠️ Technology Stack
 
-- **Backend**: Spring Boot 3.5.5
+- **Backend**: Spring Boot 4.1.1
 - **Frontend**: Thymeleaf templating engine
 - **Database**: MySQL
-- **Security**: Spring Security
+- **Security**: Spring Security 7
 - **Build Tool**: Maven
-- **Java Version**: 21
+- **Java Version**: 25
 - **Additional Libraries**:
     - Spring Data JPA
     - Spring Boot DevTools
@@ -57,7 +59,7 @@ src/
 
 ## 🔧 Prerequisites
 
-- Java 21 or higher
+- Java 25 or higher
 - Maven 3.6+
 - MySQL 8.0+
 - Docker (optional, for containerized deployment)
@@ -172,6 +174,8 @@ The application uses Spring Security with:
 - User profile images in `/static/img/profile_img/`
 
 ## 🧪 Testing
+
+Tests run with the `test` profile against an in-memory H2 database, so no MySQL instance is needed.
 
 ```bash
 # Run all tests
