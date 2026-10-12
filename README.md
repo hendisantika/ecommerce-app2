@@ -181,9 +181,11 @@ Tests run with the `test` profile against an in-memory H2 database, so no MySQL 
 # Run all tests
 ./mvnw test
 
-# Run with coverage
-./mvnw test jacoco:report
+# Run tests and generate the JaCoCo coverage report
+./mvnw test
 ```
+
+The coverage report is written to `target/site/jacoco/index.html`.
 
 ## 📝 Development Notes
 
